@@ -57,7 +57,7 @@
         }
 
         echo "<header class='navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow'>
-        <a class='navbar-brand col-md-3 col-lg-2 me-0 px-3' href='#'>Company name</a>
+        <a class='navbar-brand col-md-3 col-lg-2 me-0 px-3' href='#'>Game Capture Report</a>
         <button class='navbar-toggler position-absolute d-md-none collapsed' type='button' data-bs-toggle='collapse' data-bs-target='#sidebarMenu' aria-controls='sidebarMenu' aria-expanded='false' aria-label='Toggle navigation'>
           <span class='navbar-toggler-icon'></span>
         </button>
@@ -85,21 +85,16 @@
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='file'></span>
-                    Orders
+                    Players
                   </a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='shopping-cart'></span>
-                    Products
+                    Game List
                   </a>
                 </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='users'></span>
-                    Customers
-                  </a>
-                </li>
+
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='bar-chart-2'></span>
@@ -124,25 +119,25 @@
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='file-text'></span>
-                    Current month
+                    Player Name
                   </a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='file-text'></span>
-                    Last quarter
+                    Game
                   </a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='file-text'></span>
-                    Social engagement
+                    Playtime
                   </a>
                 </li>
                 <li class='nav-item'>
                   <a class='nav-link' href='#'>
                     <span data-feather='file-text'></span>
-                    Year-end sale
+                    Day Completed
                   </a>
                 </li>
               </ul>
@@ -168,23 +163,25 @@
             <canvas class='my-4 w-100' id='myChart' width='900' height='380'></canvas>
             <!-- end -->
       
-            <h2>Section title</h2>
+            <h2>SQL Data</h2>
             <div class='table-responsive'>";
               
             /**
              * @TODO:
-             * Get data with sql statment
+             * Get data with sql statement
              * execute statment
              * sort data
              * create headings array
-             * use loops to diplay headings and data in tab;e
+             * use loops to display headings and data in table
              */
 
+                
             /**<table class='table table-striped table-sm'>
                 <thead>
                   <tr>
                     <th scope='col'>#</th>
                     <th scope='col'>Header</th>
+
                     <th scope='col'>Header</th>
                     <th scope='col'>Header</th>
                     <th scope='col'>Header</th>
@@ -310,6 +307,39 @@
         </div>
       </div>";
       ?>
+
+<?php
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "jarryd_test";
+
+// Create connection
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) {
+die("Connection failed: " . mysqli_connect_error());
+}
+        
+    $sql = "CREATE Table GameTime(
+        id Int(11)UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        player_name TEXT,
+        game Int(11) NOT NULL,
+        playtime TEXT,
+        date_started DATE,
+        date_finsihed TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        )";
+
+            if ($conn->query($sql) === TRUE) {
+                echo "Table Game Time created successfully";
+            } else {
+                echo "Error creating table: " . $conn->error;
+            }
+            
+            $conn->close();
+
+?>
 
       <!-- Bootstrap -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
