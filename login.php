@@ -15,6 +15,7 @@
 </head>
     <body>
         <?php
+         require_once("sql.php");
             echo "<div class='container'>
                     <div class='row'>
                     <div class='col-4'></div>
@@ -26,14 +27,12 @@
         
                     <!-- Email input -->
                     <div class='form-outline mb-4'>
-                    <input type='email' id='form3Example3' class='form-control form-control-lg'
-                        placeholder='Enter a valid email address' />
+                    <input type='text' id='username' name='username' class='form-control form-control-lg' placeholder='Enter a valid username' />
                     </div>
         
                     <!-- Password input -->
                     <div class='form-outline mb-3'>
-                    <input type='password' id='form3Example4' class='form-control form-control-lg'
-                        placeholder='Enter password' />
+                    <input type='password' id='password' name='password' class='form-control form-control-lg' placeholder='Enter password' />
                     </div>
         
                     <div class='text-center text-lg-start mt-4 pt-2'>
@@ -41,7 +40,30 @@
                     </div>
                   </form>";
             echo "</div>
-            <div class='col-4'></div></div></div>";
+            <div class='col-4'></div>
+            </div></div>";
+
+            // echo '<pre>'.print_r($_POST,true).'</pre>';
+
+            if(isset($_POST['Login']) && !empty($_POST['Login'])){
+                $mysql = new mySQLClass();
+                $username = $_POST['username'];
+                $password = $_POST['password'];
+
+                $sql = "SELECT user,password,accessRights FROM users WHERE user = '$username' AND password = '$password'";
+
+              
+                $result = $mysql->mySQl($sql);
+                // echo 'HERER<pre>'.print_r($mysql->mySQl($sql) ,true).'</pre>';
+                if($result){
+                    //start session
+                    // create session vars
+                    header("Location: http://localhost/training/admin/home.php");
+                }else{
+                    //Display login message
+                }
+                
+            }
         ?>
         <!-- Bootstrap -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>

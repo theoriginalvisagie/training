@@ -1,41 +1,49 @@
-
-
 <?php
-
-class mySQLWhy {
-    function __construct(){
-
-    }
-    function dbConnect($sql){
-
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbName = "jarryd_introduction";
-
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbName);
-
-        // Check connection
-        if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+    class mySQLClass {
+        function __construct(){
 
         }
 
-        echo "Connected successfully";
+        function dbConnect($sql){
 
-       //$sql = "CREATE DATABASE myDB";
-        if ($conn->query($sql) === TRUE) {
-        echo "Database created successfully";
-        } else {
-        echo "Error creating database: " . $conn->error;
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbName = "jarryd_test";
+
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbName);
+
+            // Check connection
+            if ($conn->connect_error) {
+                die("Connection failed: " . $conn->connect_error);
+            }
+
+            $result = $conn->query($sql);
+
+            
+            if($result && $result->num_rows <= 0) {
+                $return = "New record created successfully";
+            }else if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()) {
+                   $dataArr = $row;
+                   
+                }
+                $return = $dataArr;
+            } else {
+                $return = "Error" . $conn->error;
+            }
+
+            return $return;
+            $conn->close();  
         }
 
-        $conn->close();
+        function mySQl($sql){
+            $return = $this->dbConnect($sql);
 
-                
+            return $return;
+        }
     }
-}
 
 ?>
 
