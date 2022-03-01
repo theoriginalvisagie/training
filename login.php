@@ -51,24 +51,17 @@
                 $password = $_POST['password'];
 
                 $sql = "SELECT user,password,accessRights FROM users WHERE user = '$username' AND password = '$password'";
-
               
                 $result = $mysql->mySQl($sql);
-                // echo 'HERER<pre>'.print_r($mysql->mySQl($sql) ,true).'</pre>';
+
                 if($result){
-                    //start session
                     session_start();
-
-                    // create session vars
-
-                    $_SESSION["username"] = "demo";
-                    print_r($_SESSION);                    
-
+                    $_SESSION["username"] = "demo";      
+                    echo "Welcome to the home page";
+                    sleep("5");
                     header("Location: http://localhost/training/admin/home.php");
                 }else{
-                    //Display login message
-                    
-                    echo "Welcome to the home page";
+                    // echo "Welcome to the home page";
                 
                 }
                 
