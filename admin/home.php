@@ -160,7 +160,7 @@
             </div>
       
             <!-- DONT WORRY -->
-            <canvas class='my-4 w-100' id='myChart' width='900' height='380'></canvas>
+            
             <!-- end -->
       
             <h2>SQL Data</h2>
@@ -175,171 +175,158 @@
              * use loops to display headings and data in table
              */
 
-                
-            /**<table class='table table-striped table-sm'>
-                <thead>
-                  <tr>
-                    <th scope='col'>#</th>
-                    <th scope='col'>Header</th>
+            echo "<pre>" . print_r($_GET,true) . "</pre>";
+            echo "<pre>" . print_r($_POST,true) . "</pre>";
 
-                    <th scope='col'>Header</th>
-                    <th scope='col'>Header</th>
-                    <th scope='col'>Header</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>1,001</td>
-                    <td>random</td>
-                    <td>data</td>
-                    <td>placeholder</td>
-                    <td>text</td>
-                  </tr>
-                  <tr>
-                    <td>1,002</td>
-                    <td>placeholder</td>
-                    <td>irrelevant</td>
-                    <td>visual</td>
-                    <td>layout</td>
-                  </tr>
-                  <tr>
-                    <td>1,003</td>
-                    <td>data</td>
-                    <td>rich</td>
-                    <td>dashboard</td>
-                    <td>tabular</td>
-                  </tr>
-                  <tr>
-                    <td>1,003</td>
-                    <td>information</td>
-                    <td>placeholder</td>
-                    <td>illustrative</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,004</td>
-                    <td>text</td>
-                    <td>random</td>
-                    <td>layout</td>
-                    <td>dashboard</td>
-                  </tr>
-                  <tr>
-                    <td>1,005</td>
-                    <td>dashboard</td>
-                    <td>irrelevant</td>
-                    <td>text</td>
-                    <td>placeholder</td>
-                  </tr>
-                  <tr>
-                    <td>1,006</td>
-                    <td>dashboard</td>
-                    <td>illustrative</td>
-                    <td>rich</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,007</td>
-                    <td>placeholder</td>
-                    <td>tabular</td>
-                    <td>information</td>
-                    <td>irrelevant</td>
-                  </tr>
-                  <tr>
-                    <td>1,008</td>
-                    <td>random</td>
-                    <td>data</td>
-                    <td>placeholder</td>
-                    <td>text</td>
-                  </tr>
-                  <tr>
-                    <td>1,009</td>
-                    <td>placeholder</td>
-                    <td>irrelevant</td>
-                    <td>visual</td>
-                    <td>layout</td>
-                  </tr>
-                  <tr>
-                    <td>1,010</td>
-                    <td>data</td>
-                    <td>rich</td>
-                    <td>dashboard</td>
-                    <td>tabular</td>
-                  </tr>
-                  <tr>
-                    <td>1,011</td>
-                    <td>information</td>
-                    <td>placeholder</td>
-                    <td>illustrative</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,012</td>
-                    <td>text</td>
-                    <td>placeholder</td>
-                    <td>layout</td>
-                    <td>dashboard</td>
-                  </tr>
-                  <tr>
-                    <td>1,013</td>
-                    <td>dashboard</td>
-                    <td>irrelevant</td>
-                    <td>text</td>
-                    <td>visual</td>
-                  </tr>
-                  <tr>
-                    <td>1,014</td>
-                    <td>dashboard</td>
-                    <td>illustrative</td>
-                    <td>rich</td>
-                    <td>data</td>
-                  </tr>
-                  <tr>
-                    <td>1,015</td>
-                    <td>random</td>
-                    <td>tabular</td>
-                    <td>information</td>
-                    <td>text</td>
-                  </tr>
-                </tbody>
-              </table> */
-            echo"</div>
+            if(isset($_POST['action']))
+            {
+                if($_POST['action']=="Edit")
+                {
+                    echo "Call my edit function here".$_POST['id'];
+                    editRecord($_POST['id']);
+                }
+            }
+            
+            function editRecord($id)
+            {
+                echo "ID: ".$id;
+                
+            }
+
+            $servername = "localhost";
+            $username = "root";
+            $password = "";
+            $dbname = "jarryd_test";
+            
+            // Create connection
+            $conn = mysqli_connect($servername, $username, $password, $dbname);
+            // Check connection
+            if (!$conn) {
+            die("Connection failed: " . mysqli_connect_error());
+            }
+                    
+                $sql = "SELECT * FROM game_time";
+                $result = $conn->query($sql);
+            
+                $table = "";
+            
+                    $table ="<table class='table table-striped table-sm'>
+                            <thead>
+                              <tr>
+                                <th scope='col'>#</th>
+                                <th scope='col'>Game</th>
+            
+                                <th scope='col'>Play Time</th>
+                                <th scope='col'>Date Started</th>
+                                <th scope='col'>Date Finished</th>
+                                <th scope='col'>Player Name</th>
+                                <th scope='col'>Tools</th>
+                              </tr>
+                            </thead>
+                            <tbody>";
+                              
+            
+                if ($result->num_rows > 0) {
+                  // output data of each row
+                  while($row = $result->fetch_assoc()) {
+                    // echo "id: " . $row["id"]. " - playtime: " . $row["playtime"]. " " . $row["lastname"]. "<br>";
+                    // echo "<pre>" . print_r($row) . "</pre>";
+            
+                    $table .="<tr>
+                                <td>{$row['id']}</td>
+                                <td>{$row['game']}</td>
+                                <td>{$row['playtime']}</td>
+                                <td>{$row['date_started']}</td>
+                                <td>{$row['date_finished']}</td>
+                                <td>{$row['player_name']}</td>
+                                <td><form action='' method='post'>
+                                <input type='submit' name='action' value='Add' class='btn btn-success'>
+                                <input type='submit' name='action' value='Edit' class='btn btn-warning'>
+                                <input type='hidden' name='id' value='{$row['id']}' >
+                                </form></td>
+                                <td><a href='#' class='btn btn-danger'>Delete</a></td>
+
+                              </tr>";   
+                    
+                  }
+                } else {
+                  echo "0 results";
+                }
+                
+                $conn->close();
+            
+                $table .="</tbody>
+                              </table>";
+            
+                              echo $table;
+            
+            ?>
+
+            <?php
+
+               $servername = "localhost";
+               $username = "root";
+               $password = "";
+               $dbname = "jarryd_test";
+            
+                // Create connection
+                $conn = new mysqli($servername, $username, $password, $dbname);
+                        // Check connection
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                            }
+
+                        $sql = "UPDATE `game_time` SET `id`='[value-1]',`game`='[value-2]',`playtime`='[value-3]',`date_started`='[value-4]',`date_finished`='[value-5]',`player_name`='[value-6]' WHERE 0";
+
+                        if ($conn->query($sql) === TRUE) {
+                            echo "Record updated successfully";
+                            } else {
+                            echo "Error updating record: " . $conn->error;
+                            }
+
+                        mysqli_close($conn);
+                            
+            ?>
+
+            <?php
+                
+                echo nl2br("\n");
+
+            ?>
+
+            <?php
+            
+               $servername = "localhost";
+               $username = "root";
+               $password = "";
+               $dbname = "jarryd_test";
+
+                        // Create connection
+                        $conn = new mysqli($servername, $username, $password, $dbname);
+                        // Check connection
+                        if ($conn->connect_error) {
+                        die("Connection failed: " . $conn->connect_error);
+                        }
+
+                        // sql to delete a record
+                        $sql = "DELETE FROM `game_time` WHERE 0";
+
+                            if ($conn->query($sql) === TRUE) {
+                            echo "Record deleted successfully";
+                            } else {
+                            echo "Error deleting record: " . $conn->error;
+                            }
+
+                                $conn->close();
+            ?>
+
+            </div>
           </main>
         </div>
       </div>";
-      ?>
+      
 
-<?php
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "jarryd_test";
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// Check connection
-if (!$conn) {
-die("Connection failed: " . mysqli_connect_error());
-}
-        
-    $sql = "CREATE Table GameTime(
-        id Int(11)UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        player_name TEXT,
-        game Int(11) NOT NULL,
-        playtime TEXT,
-        date_started DATE,
-        date_finsihed TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-        )";
-
-            if ($conn->query($sql) === TRUE) {
-                echo "Table Game Time created successfully";
-            } else {
-                echo "Error creating table: " . $conn->error;
-            }
-            
-            $conn->close();
-
-?>
 
       <!-- Bootstrap -->
       <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>
