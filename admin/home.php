@@ -47,14 +47,18 @@
     <link href="dashboard.css" rel="stylesheet">
   </head>
   <body>
-    
-      <?php
 
-      
-        if(isset($_POST['Logout']) && !empty($_POST['Logout'])){
-          session_destroy();
-          header("Location: http://localhost/training/login.php");
-        }
+       
+<?php      
+
+    // require_once("../sql.php");
+
+
+    //     if(isset($_POST['Logout']) && !empty($_POST['Logout'])){
+    //         session_unset();
+    //       session_destroy();
+    //       header("Location: http://localhost/training/login.php");
+    //     }
 
         echo "<header class='navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow'>
         <a class='navbar-brand col-md-3 col-lg-2 me-0 px-3' href='#'>Game Capture Report</a>
@@ -150,7 +154,7 @@
               <div class='btn-toolbar mb-2 mb-md-0'>
                 <div class='btn-group me-2'>
                   <button type='button' class='btn btn-sm btn-outline-secondary'>Share</button>
-                  <button type='button' class='btn btn-sm btn-outline-secondary'>Export</button>
+                <input type='submit' name='action' value='Add' class='btn btn-success'>
                 </div>
                 <button type='button' class='btn btn-sm btn-outline-secondary dropdown-toggle'>
                   <span data-feather='calendar'></span>
@@ -182,16 +186,18 @@
             {
                 if($_POST['action']=="Edit")
                 {
-                    echo "Call my edit function here".$_POST['id'];
-                    editRecord($_POST['id']);
+                    //echo "Read data".$_POST['id'];
+                   
+                    //readRecord($_POST['id']);
                 }
             }
             
-            function editRecord($id)
+            function readRecord($id)
             {
                 echo "ID: ".$id;
                 
             }
+
 
             $servername = "localhost";
             $username = "root";
@@ -229,8 +235,9 @@
                 if ($result->num_rows > 0) {
                   // output data of each row
                   while($row = $result->fetch_assoc()) {
-                    // echo "id: " . $row["id"]. " - playtime: " . $row["playtime"]. " " . $row["lastname"]. "<br>";
-                    // echo "<pre>" . print_r($row) . "</pre>";
+                    echo "id: " . $row["id"] ."    <br>";
+                    
+                    echo "<pre>" . print_r($row) . "</pre>";
             
                     $table .="<tr>
                                 <td>{$row['id']}</td>
@@ -240,11 +247,11 @@
                                 <td>{$row['date_finished']}</td>
                                 <td>{$row['player_name']}</td>
                                 <td><form action='' method='post'>
-                                <input type='submit' name='action' value='Add' class='btn btn-success'>
                                 <input type='submit' name='action' value='Edit' class='btn btn-warning'>
+                                <input type='submit' name='action' value='Delete' class='btn btn-danger'>
                                 <input type='hidden' name='id' value='{$row['id']}' >
                                 </form></td>
-                                <td><a href='#' class='btn btn-danger'>Delete</a></td>
+                                
 
                               </tr>";   
                     
@@ -254,70 +261,79 @@
                 }
                 
                 $conn->close();
-            
+                    $row = readRecord($sql);
                 $table .="</tbody>
                               </table>";
             
                               echo $table;
             
-            ?>
+?>
 
             <?php
 
-               $servername = "localhost";
-               $username = "root";
-               $password = "";
-               $dbname = "jarryd_test";
+                
+            function getRecord($id)
+            {
+                echo "ID: ".$id;
+                
+            }
+
+                // if("input type='submit' name='action' value='Edit' class='btn btn-warning")
+
+                //         $sql = "UPDATE `game_time` SET `id`='[value-1]',`game`='[value-2]',`playtime`='[value-3]',`date_started`='[value-4]',`date_finished`='[value-5]',`player_name`='[value-6]' WHERE 0";
+
+                //         if ($conn->query($sql) === TRUE) {
+                //             echo "Record updated successfully";
+                //             } else {
+                //             echo "Error updating record: " . $conn->error;
+                //             }
+
+                //         mysqli_close($conn);
+
+                include_once "../Session.php";
+                 Session::start();
+                    if(!Session::exists('active_user'))  header("location: ../login.php");
+    
+                    include_once("../sql.php");
+                    $sql = new mysqli();
+                    $username = $sql->getRecord($_GET['id']);
+    
+
+                if(($_SERVER['REQUEST_METHOD'] == 'POST')){
+        
+                    $username->editRecord($_GET['id']);
+
+    }
             
-                // Create connection
-                $conn = new mysqli($servername, $username, $password, $dbname);
-                        // Check connection
-                        if ($conn->connect_error) {
-                            die("Connection failed: " . $conn->connect_error);
-                            }
-
-                        $sql = "UPDATE `game_time` SET `id`='[value-1]',`game`='[value-2]',`playtime`='[value-3]',`date_started`='[value-4]',`date_finished`='[value-5]',`player_name`='[value-6]' WHERE 0";
-
-                        if ($conn->query($sql) === TRUE) {
-                            echo "Record updated successfully";
-                            } else {
-                            echo "Error updating record: " . $conn->error;
-                            }
-
-                        mysqli_close($conn);
                             
             ?>
 
-            <?php
-                
-                echo nl2br("\n");
-
-            ?>
+           
 
             <?php
             
-               $servername = "localhost";
-               $username = "root";
-               $password = "";
-               $dbname = "jarryd_test";
+            //    $servername = "localhost";
+            //    $username = "root";
+            //    $password = "";
+            //    $dbname = "jarryd_test";
 
-                        // Create connection
-                        $conn = new mysqli($servername, $username, $password, $dbname);
-                        // Check connection
-                        if ($conn->connect_error) {
-                        die("Connection failed: " . $conn->connect_error);
-                        }
+            //             // Create connection
+            //             $conn = new mysqli($servername, $username, $password, $dbname);
+            //             // Check connection
+            //             if ($conn->connect_error) {
+            //             die("Connection failed: " . $conn->connect_error);
+            //             }
 
-                        // sql to delete a record
-                        $sql = "DELETE FROM `game_time` WHERE 0";
+            //             // sql to delete a record
+            //             $sql = "DELETE FROM `game_time` WHERE 0";
 
-                            if ($conn->query($sql) === TRUE) {
-                            echo "Record deleted successfully";
-                            } else {
-                            echo "Error deleting record: " . $conn->error;
-                            }
+            //                 if ($conn->query($sql) === TRUE) {
+            //                 echo "Record deleted successfully";
+            //                 } else {
+            //                 echo "Error deleting record: " . $conn->error;
+            //                 }
 
-                                $conn->close();
+            //                     $conn->close();
             ?>
 
             </div>
