@@ -25,6 +25,7 @@
     <link rel="icon" href="/docs/5.1/assets/img/favicons/favicon.ico">
     <meta name="theme-color" content="#7952b3">
 
+    <script src="script/js.js?v=<?php echo date('Y-m-d H:i:s');?>"></script>
 
     <style>
       .bd-placeholder-img {
@@ -117,18 +118,11 @@
             $result = $mySQL->mySQl($sql);
             $headings = $mySQL->getTableHeadings("game_time","id");
 
-            //Add Button
-            foreach($result as $new => $value){
-                // echo $value['game'];
-                // echo '<pre>'.print_r($value,true).'</pre>';
-                echo "<tr>";
-         
-            }
               
-                echo "<form method='post' style='float:right;'>
-                        <input type='submit' name='addRow' id='addRow' value='Add' class='btn pull-right btn-success'>
-                        <input type='hidden' name='db' id='db' value='$sql'>
-                     </form>";
+            echo "<form method='post' style='float:right;'>
+                    <input type='submit' name='addRow' id='addRow' value='Add' class='btn pull-right btn-success'>
+                    <input type='hidden' name='table' id='table' value='game_time'>
+                  </form>";
 
             echo "<table class='table table-striped'>";
             echo "<thead>";
@@ -139,36 +133,57 @@
             echo "<th>Tools</th>";
 
             echo "</thead>";
-            // echo "<pre>" . print_r($result,true) . "</pre>";
             foreach($result as $key=>$value){
-              // echo $value['game'];
-              // echo '<pre>'.print_r($value,true).'</pre>';
               echo "<tr>";
-              
+        
               foreach($headings as $h){
                 echo "<td>".$value[$h['Field']]."</td>";
               }
+
               echo "<td>".addEditTools($value['id'],"game_time")."</td>";
-              // reference headins to get value
               echo "</tr>";
 
             }
             echo "</table'>";
             echo "</div>";
 
-
-            function addEditTools($id,$db){
+            function addEditTools($id,$table){
               $s = "<form method='post'>
                       <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
                       <input type='submit' name='removeRow' id='removeRow' value='Remove' class='btn btn-danger'>
-                      <input type='hidden' name='db' id='db' value='$db'>
+                      <input type='hidden' name='table' id='table' value='$table'>
                       <input type='hidden' name='id' id='id' value='$id'>
                     </form>";
 
               return $s;
             }
 
+            function addEdit($table,$id=""){
+              $mySQL = new mySQLClass();
+              $sql = "SELECT * FROM $table";
+              $result = $mySQL->mySQl($sql);
+
+              echo "<div>
+                      <h3>Add/Edit</h3>
+                      <form method='post'>";
+                        foreach($result as $r){
+                          echo "<input type='text' value='{$result}' id='' name=''>";
+                        }
+                        echo "<br><input type='submit' value='Save' id='' name='' class='btn btn-success'>";
+                    echo"</form>
+                    </div>";
+              
+            }
+
             echo '<pre>'.print_r($_POST,true).'</pre>';
+
+            if(isset($_POST['addRow']) && !empty($_POST['addRow'])){
+              echo addEdit($_POST['table']);
+            }
+
+            if(isset($_POST['editRow']) && !empty($_POST['editRow'])){
+              echo addEdit($_POST['table'],$_POST['id']);
+            }
             /*=====[END OF NEW SHIT]=====*/
               
             /*=====[YOUR SHIT]=====*/
