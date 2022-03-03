@@ -118,12 +118,18 @@
             $headings = $mySQL->getTableHeadings("game_time","id");
 
             //Add Button
-            // echo "<form method='post'>
-            //         <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
-            //         <input type='submit' name='removeRow' id='removeRow' value='Remove' class='btn btn-danger'>
-            //         <input type='hidden' name='db' id='db' value='$db'>
-            //         <input type='hidden' name='id' id='id' value='$id'>
-            //       </form>";
+            foreach($result as $new => $value){
+                // echo $value['game'];
+                // echo '<pre>'.print_r($value,true).'</pre>';
+                echo "<tr>";
+         
+            }
+              
+                echo "<form method='post' style='float:right;'>
+                        <input type='submit' name='addRow' id='addRow' value='Add' class='btn pull-right btn-success'>
+                        <input type='hidden' name='db' id='db' value='$sql'>
+                     </form>";
+
             echo "<table class='table table-striped'>";
             echo "<thead>";
 
