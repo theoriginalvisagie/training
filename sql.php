@@ -58,6 +58,8 @@
             return $this->mySQl($sql);
         }
 
+        
+
         function mySQl($sql){
             $return = $this->dbConnect($sql);
 

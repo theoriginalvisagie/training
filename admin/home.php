@@ -126,10 +126,13 @@
 
 
             echo "</thead>";
-
-            foreach($headings as $h){
+            echo "<pre>" . print_r($result,true) . "</pre>";
+            foreach($result as $r){
               echo "<tr>";
               //foreach
+              foreach($headings as $h){
+                echo "<td>".$r[$h]."</td>";
+              }
               // reference headins to get value
               echo "</tr>";
 
