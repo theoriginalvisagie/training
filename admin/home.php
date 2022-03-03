@@ -51,7 +51,7 @@
        
 <?php      
 
-    // require_once("../sql.php");
+    require_once("../sql.php");
 
 
     //     if(isset($_POST['Logout']) && !empty($_POST['Logout'])){
@@ -73,103 +73,73 @@
             </form>
           </div>
         </div>
-      </header>
+      </header>";
       
-      <div class='container-fluid'>
-        <div class='row'>
-          <nav id='sidebarMenu' class='col-md-3 col-lg-2 d-md-block bg-light sidebar collapse'>
-            <div class='position-sticky pt-3'>
-              <ul class='nav flex-column'>
-                <li class='nav-item'>
-                  <a class='nav-link active' aria-current='page' href='#'>
-                    <span data-feather='home'></span>
-                    Dashboard
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='file'></span>
-                    Players
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='shopping-cart'></span>
-                    Game List
-                  </a>
-                </li>
+      $arrTopMenu = array("dashboard","players","game_list","reports","integrations");
+      echo "<div class='container-fluid'>
+      <div class='row'>
+        <nav id='sidebarMenu' class='col-md-3 col-lg-2 d-md-block bg-light sidebar collapse'>
+          <div class='position-sticky pt-3'>";
+      echo "<ul class='nav flex-column'>";
+      foreach($arrTopMenu as $links){
+        echo "<li class='nav-item'>
+                <a class='nav-link' aria-current='page' href='#'><span data-feather='home'></span>".ucwords(str_replace("_"," ",$links))."</a>
+              </li>";
+      }
+      echo "</ul></div></nav>";
 
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='bar-chart-2'></span>
-                    Reports
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='layers'></span>
-                    Integrations
-                  </a>
-                </li>
-              </ul>
       
-              <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
-                <span>Saved reports</span>
-                <a class='link-secondary' href='#' aria-label='Add a new report'>
-                  <span data-feather='plus-circle'></span>
-                </a>
-              </h6>
-              <ul class='nav flex-column mb-2'>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='file-text'></span>
-                    Player Name
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='file-text'></span>
-                    Game
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='file-text'></span>
-                    Playtime
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a class='nav-link' href='#'>
-                    <span data-feather='file-text'></span>
-                    Day Completed
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </nav>
-      
-          <main class='col-md-9 ms-sm-auto col-lg-10 px-md-4'>
+          echo"<main class='col-md-9 ms-sm-auto col-lg-10 px-md-4'>
             <div class='d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom'>
               <h1 class='h2'>Dashboard</h1>
               <div class='btn-toolbar mb-2 mb-md-0'>
                 <div class='btn-group me-2'>
-                  <button type='button' class='btn btn-sm btn-outline-secondary'>Share</button>
-                <input type='submit' name='action' value='Add' class='btn btn-success'>
+                <!---<button type='button' class='btn btn-sm btn-outline-secondary'>Share</button> -->
+                 
                 </div>
-                <button type='button' class='btn btn-sm btn-outline-secondary dropdown-toggle'>
+                <!--- <button type='button' class='btn btn-sm btn-outline-secondary dropdown-toggle'>
                   <span data-feather='calendar'></span>
                   This week
-                </button>
+                </button> -->
               </div>
             </div>
       
             <!-- DONT WORRY -->
-            
+            GRAPH GOES HERE
             <!-- end -->
       
-            <h2>SQL Data</h2>
+            <h2>Game Data</h2>
             <div class='table-responsive'>";
+            /*=====[NEW SHIT]===== */
+
+            $mySQL = new mySQLClass();
+            $sql = "SELECT * FROM game_time";
+            $result = $mySQL->mySQl($sql);
+            $headings = $mySQL->getTableHeadings("game_time","id");
+
+            echo "<table class='table table-striped'>";
+            echo "<thead>";
+
+            foreach($headings as $h){
+              echo "<th>".ucwords(str_replace("_"," ",$h['Field']))."</th>";
+            }
+
+
+            echo "</thead>";
+
+            foreach($headings as $h){
+              echo "<tr>";
+              //foreach
+              // reference headins to get value
+              echo "</tr>";
+
+            }
+            echo "</table'>";
+            echo "</div>"
+
+            /*=====[END OF NEW SHIT]=====*/
               
+            /*=====[YOUR SHIT]=====*/
             /**
              * @TODO:
              * Get data with sql statement
@@ -179,138 +149,134 @@
              * use loops to display headings and data in table
              */
 
-            echo "<pre>" . print_r($_GET,true) . "</pre>";
-            echo "<pre>" . print_r($_POST,true) . "</pre>";
+            // echo "<pre>" . print_r($_GET,true) . "</pre>";
+            // echo "<pre>" . print_r($_POST,true) . "</pre>";
 
-            if(isset($_POST['action']))
-            {
-                if($_POST['action']=="Edit")
-                {
-                    //echo "Read data".$_POST['id'];
+            // if(isset($_POST['action']))
+            // {
+            //     if($_POST['action']=="Edit")
+            //     {
+            //         //echo "Read data".$_POST['id'];
                    
-                    //readRecord($_POST['id']);
-                }
-            }
+            //         //readRecord($_POST['id']);
+            //     }
+            // }
             
-            function readRecord($id)
-            {
-                echo "ID: ".$id;
+            // function readRecord($id)
+            // {
+            //     echo "ID: ".$id;
                 
-            }
+            // }
 
 
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "jarryd_test";
+            // $servername = "localhost";
+            // $username = "root";
+            // $password = "";
+            // $dbname = "jarryd_test";
             
-            // Create connection
-            $conn = mysqli_connect($servername, $username, $password, $dbname);
-            // Check connection
-            if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-            }
+            // // Create connection
+            // $conn = mysqli_connect($servername, $username, $password, $dbname);
+            // // Check connection
+            // if (!$conn) {
+            // die("Connection failed: " . mysqli_connect_error());
+            // }
                     
-                $sql = "SELECT * FROM game_time";
-                $result = $conn->query($sql);
+            //     $sql = "SELECT * FROM game_time";
+            //     $result = $conn->query($sql);
             
-                $table = "";
+            //     $table = "";
             
-                    $table ="<table class='table table-striped table-sm'>
-                            <thead>
-                              <tr>
-                                <th scope='col'>#</th>
-                                <th scope='col'>Game</th>
+            //         $table ="<table class='table table-striped table-sm'>
+            //                 <thead>
+            //                   <tr>
+            //                     <th scope='col'>#</th>
+            //                     <th scope='col'>Game</th>
             
-                                <th scope='col'>Play Time</th>
-                                <th scope='col'>Date Started</th>
-                                <th scope='col'>Date Finished</th>
-                                <th scope='col'>Player Name</th>
-                                <th scope='col'>Tools</th>
-                              </tr>
-                            </thead>
-                            <tbody>";
+            //                     <th scope='col'>Play Time</th>
+            //                     <th scope='col'>Date Started</th>
+            //                     <th scope='col'>Date Finished</th>
+            //                     <th scope='col'>Player Name</th>
+            //                     <th scope='col'>Tools</th>
+            //                   </tr>
+            //                 </thead>
+            //                 <tbody>";
                               
             
-                if ($result->num_rows > 0) {
-                  // output data of each row
-                  while($row = $result->fetch_assoc()) {
-                    echo "id: " . $row["id"] ."    <br>";
+            //     if ($result->num_rows > 0) {
+            //       // output data of each row
+            //       while($row = $result->fetch_assoc()) {
+            //         // echo "id: " . $row["id"] ."    <br>";
                     
-                    echo "<pre>" . print_r($row) . "</pre>";
+            //         // echo "<pre>" . print_r($row) . "</pre>";
             
-                    $table .="<tr>
-                                <td>{$row['id']}</td>
-                                <td>{$row['game']}</td>
-                                <td>{$row['playtime']}</td>
-                                <td>{$row['date_started']}</td>
-                                <td>{$row['date_finished']}</td>
-                                <td>{$row['player_name']}</td>
-                                <td><form action='' method='post'>
-                                <input type='submit' name='action' value='Edit' class='btn btn-warning'>
-                                <input type='submit' name='action' value='Delete' class='btn btn-danger'>
-                                <input type='hidden' name='id' value='{$row['id']}' >
-                                </form></td>
+            //         $table .="<tr>
+            //                     <td>{$row['id']}</td>
+            //                     <td>{$row['game']}</td>
+            //                     <td>{$row['playtime']}</td>
+            //                     <td>{$row['date_started']}</td>
+            //                     <td>{$row['date_finished']}</td>
+            //                     <td>{$row['player_name']}</td>
+            //                     <td><form action='' method='post'>
+            //                     <input type='submit' name='action' value='Edit' class='btn btn-warning'>
+            //                     <input type='submit' name='action' value='Delete' class='btn btn-danger'>
+            //                     <input type='hidden' name='id' value='{$row['id']}' >
+            //                     </form></td>
                                 
 
-                              </tr>";   
+            //                   </tr>";   
                     
-                  }
-                } else {
-                  echo "0 results";
-                }
+            //       }
+            //     } else {
+            //       echo "0 results";
+            //     }
                 
-                $conn->close();
-                    $row = readRecord($sql);
-                $table .="</tbody>
-                              </table>";
+            //     $conn->close();
+            //         $row = readRecord($sql);
+            //     $table .="</tbody>
+            //                   </table>";
             
-                              echo $table;
-            
-?>
+            //                   echo $table;
 
-            <?php
 
-                
-            function getRecord($id)
-            {
-                echo "ID: ".$id;
-                
-            }
-
-                // if("input type='submit' name='action' value='Edit' class='btn btn-warning")
-
-                //         $sql = "UPDATE `game_time` SET `id`='[value-1]',`game`='[value-2]',`playtime`='[value-3]',`date_started`='[value-4]',`date_finished`='[value-5]',`player_name`='[value-6]' WHERE 0";
-
-                //         if ($conn->query($sql) === TRUE) {
-                //             echo "Record updated successfully";
-                //             } else {
-                //             echo "Error updating record: " . $conn->error;
-                //             }
-
-                //         mysqli_close($conn);
-
-                include_once "../Session.php";
-                 Session::start();
-                    if(!Session::exists('active_user'))  header("location: ../login.php");
-    
-                    include_once("../sql.php");
-                    $sql = new mysqli();
-                    $username = $sql->getRecord($_GET['id']);
-    
-
-                if(($_SERVER['REQUEST_METHOD'] == 'POST')){
-        
-                    $username->editRecord($_GET['id']);
-
-    }
-            
-                            
-            ?>
 
            
+            
 
-            <?php
+                
+            // function getRecord($id)
+            // {
+            //     echo "ID: ".$id;
+                
+            // }
+
+            //     // if("input type='submit' name='action' value='Edit' class='btn btn-warning")
+
+            //     //         $sql = "UPDATE `game_time` SET `id`='[value-1]',`game`='[value-2]',`playtime`='[value-3]',`date_started`='[value-4]',`date_finished`='[value-5]',`player_name`='[value-6]' WHERE 0";
+
+            //     //         if ($conn->query($sql) === TRUE) {
+            //     //             echo "Record updated successfully";
+            //     //             } else {
+            //     //             echo "Error updating record: " . $conn->error;
+            //     //             }
+
+            //     //         mysqli_close($conn);
+
+            //     include_once "../Session.php";
+            //      Session::start();
+            //         if(!Session::exists('active_user'))  header("location: ../login.php");
+    
+            //         include_once("../sql.php");
+            //         $sql = new mysqli();
+            //         $username = $sql->getRecord($_GET['id']);
+    
+
+            //     if(($_SERVER['REQUEST_METHOD'] == 'POST')){
+        
+            //         $username->editRecord($_GET['id']);
+
+            //     }
+            
+                            
             
             //    $servername = "localhost";
             //    $username = "root";
@@ -334,12 +300,13 @@
             //                 }
 
             //                     $conn->close();
+             /*=====[END OF YOUR SHIT]===== */
             ?>
 
             </div>
           </main>
         </div>
-      </div>";
+      </div>
       
 
 

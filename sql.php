@@ -1,5 +1,5 @@
 <?php
-    class mySQLClass {
+    class mySQLClass{
         function __construct(){
 
         }
@@ -26,7 +26,7 @@
                 $return = "New record created successfully";
             }else if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()) {
-                   $dataArr = $row;
+                   $dataArr[] = $row;
                    
                 }
                 $return = $dataArr;
@@ -38,6 +38,26 @@
             $conn->close();  
         }
 
+        function getTableHeadings($table,$hidden=""){
+            $where = "";
+            if($hidden !=""){
+                $hidden = explode(",",$hidden);
+
+                foreach($hidden as $k=>$v){
+                    $hidden[$k] = "'".$v."',"; 
+                }
+
+                $hidden = rtrim(implode("",$hidden),",");
+
+                $where = "WHERE Field NOT IN ($hidden)";
+            }
+            
+
+            $sql = "SHOW COLUMNS FROM $table $where";
+
+            return $this->mySQl($sql);
+        }
+
         function mySQl($sql){
             $return = $this->dbConnect($sql);
 
@@ -45,9 +65,6 @@
         }
 
         public function create($data_array, $table){
-
-        
-
             $columns = implode(',',array_keys($data_array));
             $place_holders = ':'.implode(',:', array_keys($data_array));
             
