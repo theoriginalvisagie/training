@@ -117,29 +117,52 @@
             $result = $mySQL->mySQl($sql);
             $headings = $mySQL->getTableHeadings("game_time","id");
 
+            //Add Button
+            // echo "<form method='post'>
+            //         <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
+            //         <input type='submit' name='removeRow' id='removeRow' value='Remove' class='btn btn-danger'>
+            //         <input type='hidden' name='db' id='db' value='$db'>
+            //         <input type='hidden' name='id' id='id' value='$id'>
+            //       </form>";
             echo "<table class='table table-striped'>";
             echo "<thead>";
 
             foreach($headings as $h){
               echo "<th>".ucwords(str_replace("_"," ",$h['Field']))."</th>";
             }
-
+            echo "<th>Tools</th>";
 
             echo "</thead>";
-            echo "<pre>" . print_r($result,true) . "</pre>";
-            foreach($result as $r){
+            // echo "<pre>" . print_r($result,true) . "</pre>";
+            foreach($result as $key=>$value){
+              // echo $value['game'];
+              // echo '<pre>'.print_r($value,true).'</pre>';
               echo "<tr>";
-              //foreach
+              
               foreach($headings as $h){
-                echo "<td>".$r[$h]."</td>";
+                echo "<td>".$value[$h['Field']]."</td>";
               }
+              echo "<td>".addEditTools($value['id'],"game_time")."</td>";
               // reference headins to get value
               echo "</tr>";
 
             }
             echo "</table'>";
-            echo "</div>"
+            echo "</div>";
 
+
+            function addEditTools($id,$db){
+              $s = "<form method='post'>
+                      <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
+                      <input type='submit' name='removeRow' id='removeRow' value='Remove' class='btn btn-danger'>
+                      <input type='hidden' name='db' id='db' value='$db'>
+                      <input type='hidden' name='id' id='id' value='$id'>
+                    </form>";
+
+              return $s;
+            }
+
+            echo '<pre>'.print_r($_POST,true).'</pre>';
             /*=====[END OF NEW SHIT]=====*/
               
             /*=====[YOUR SHIT]=====*/
