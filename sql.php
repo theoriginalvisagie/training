@@ -66,16 +66,43 @@
             return $return;
         }
 
-        public function create($data_array, $table){
-            $columns = implode(',',array_keys($data_array));
-            $place_holders = ':'.implode(',:', array_keys($data_array));
+        public function create($post, $table){
             
+            echo '<pre>'.print_r($post,true).'</pre>';
+            // $columns = implode(',',array_keys($data_array));
+            // $place_holders = ':'.implode(',:', array_keys($data_array));
+            $sql = "INSERT INTO $table(";
+            foreach($post as $p=>$value){
+                if($p != "table" && $p != "saveNew"){
+                    if($p === array_key_last($post)){
+                        $sql .= $p;
+                    }else{
+                        $sql .= $p.",";
+                    }
+                    // $sql .= $p.",";
+                }
+            }
+
+            $sql .= ") VALUES (";
+
+            foreach($post as $p=>$value){
+                if($p != "table" && $p != "saveNew"){
+                    if($p === array_key_last($post)){
+                        $sql .= "'".$value."'";
+                    }else{
+                        $sql .=  "'".$value."',";
+                    }
+                    // $sql .= $p.",";
+                }
+            }
+            $sql .= ")";
+
+            echo $sql;
+            // $sql = "Insert INTO $table ($columns) VALUES ($place_holders)";
+            //  $stmt = $this->conn->prepare($sql);
     
-            $sql = "Insert INTO $table ($columns) VALUES ($place_holders)";
-             $stmt = $this->conn->prepare($sql);
-    
-            $stmt->execute($data_array);
-            return $this->conn->lastInsertId();
+            // $stmt->execute($data_array);
+            // return $this->conn->lastInsertId();
     
         }
     

@@ -144,7 +144,7 @@
               echo "</tr>";
 
             }
-            echo "</table'>";
+            echo "</table>";
             echo "</div>";
 
             function addEditTools($id,$table){
@@ -160,17 +160,47 @@
 
             function addEdit($table,$id=""){
               $mySQL = new mySQLClass();
-              $sql = "SELECT * FROM $table";
-              $result = $mySQL->mySQl($sql);
+              //check is id is emoty for edit
+              // append to sQL stament where
+              $headings = $mySQL->getTableHeadings($table,"id");
+              // $where = "WHERE id='$id'";
+              // if($id !=""){
+                $sql = "SELECT * FROM $table $where";
+                $result = $mySQL->mySQl($sql);
+              // }
+              
 
-              echo "<div>
+              echo "<div style='width:50%;'>
                       <h3>Add/Edit</h3>
                       <form method='post'>";
-                        foreach($result as $r){
-                          echo "<input type='text' value='{$result}' id='' name=''>";
-                        }
-                        echo "<br><input type='submit' value='Save' id='' name='' class='btn btn-success'>";
-                    echo"</form>
+
+                      echo "<table class='table table-striped'>";
+                      // echo "<tr>";
+                      //  echo "<td><input type='text' value='TESTS' id='' name=''></td>";
+                      // echo "</tr>";
+                      // for($i = 0; $i<count($headings); $i++){
+                      //   echo "<tr>";
+                      //   echo "<td>".ucwords(str_replace("_"," ",$headings[$i]['Field']))."</td>";
+                      //   foreach($result as $r){
+                      //     echo "<td><input type='text' value='{$r[$headings[$i]['Field']]}' id='{$headings[$i]['Field']}' name='{$headings[$i]['Field']}'></td>";
+                      //   }
+                        
+                      //   echo "</tr>";
+                      // }
+                      foreach($headings as $h){
+                        echo "<tr>";
+                        echo "<td>".ucwords(str_replace("_"," ",$h['Field']))."</td>";
+                        // foreach($result as $r){
+                          echo "<td><input type='text' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";//value='{$r[$h['Field']]}'
+                        // }
+                        
+                        echo "</tr>";
+                      }
+
+                      echo "</table>";
+                        echo "<br><input type='submit' value='Save' id='saveNew' name='saveNew' class='btn btn-success'>
+                        <input type='hidden' value='$table' id='table' name='table'>";
+                         echo"</form>
                     </div>";
               
             }
@@ -183,6 +213,12 @@
 
             if(isset($_POST['editRow']) && !empty($_POST['editRow'])){
               echo addEdit($_POST['table'],$_POST['id']);
+            }
+
+            if(isset($_POST['saveNew']) && !empty($_POST['saveNew'])){
+              // echo addEdit($_POST['table']);
+              $mySQL = new mySQLClass();
+              $mySQL->create($_POST,$_POST['table']);
             }
             /*=====[END OF NEW SHIT]=====*/
               
