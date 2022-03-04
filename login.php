@@ -15,7 +15,7 @@
 </head>
     <body>
         <?php
-         require_once("sql.php");
+         require_once("admin/Utilities/sql.php");
             echo "<div class='container'>
                     <div class='row'>
                     <div class='col-4'></div>
@@ -59,7 +59,7 @@
                     $_SESSION["username"] = "demo";      
                     echo "Welcome to the home page";
                     sleep("5");
-                    header("Location: http://localhost/training/admin/home.php");
+                    header("Location: http://localhost/training/admin/Modules/Home/index.php");
                 }else{
                     // echo "Welcome to the home page";
                 

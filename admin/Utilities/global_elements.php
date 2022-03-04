@@ -1,5 +1,5 @@
 <?php
-    require_once("../sql.php");
+    require_once("sql.php");
 
     /**
      * @param string $table Table it gets data from
@@ -27,4 +27,54 @@
         return $s;
         
     }
+
+    function displayTable($sql, $table, $where="", $showTools = true){
+        $mysql = new mySQLClass();
+        $headings = $mysql->getTableHeadings($table,"id");
+        
+        $result = $mysql->mySQl($sql);
+
+        echo "<input type='submit' name='addRow' id='addRow' value='Add' class='btn btn-success'>";
+
+        echo "<table class='table table-striped'>
+                <thead>";
+
+                foreach($headings as $h){
+                    echo "<th>".ucwords(str_replace("_"," ",$h['Field']))."</th>";
+                }
+
+                if($showTools){
+                    echo "<th>Tools</th>";
+                }
+               
+
+                foreach($result as $row){
+                    echo "<tr>";
+                    foreach($headings as $h){
+                        echo "<td>{$row[$h['Field']]}</td>";
+                    }
+
+                    if($showTools){
+                        echo "<td>".addEditTools($row['id'],$table)."</td>";
+                    }
+                    
+                    echo "</tr>";
+                }
+
+        echo"</thead>
+                <tbody>";
+        echo"</tbody>
+              </table>";
+    }
+
+    function addEditTools($id,$table){
+        $s = "<form method='post'>
+              <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
+              <input type='submit' name='removeRow' id='removeRow' value='Remove' class='btn btn-danger'>
+              <input type='hidden' name='table' id='table' value='$table'>
+              <input type='hidden' name='id' id='id' value='$id'>
+            </form>";
+  
+        return $s;
+      }
 ?>
