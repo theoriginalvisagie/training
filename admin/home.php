@@ -53,6 +53,7 @@
 <?php      
 
     require_once("../sql.php");
+    require_once("Utilities/global_elements.php");
 
 
         if(isset($_POST['Logout']) && !empty($_POST['Logout'])){
@@ -147,6 +148,8 @@
             echo "</table>";
             echo "</div>";
 
+            
+
             function addEditTools($id,$table){
               $s = "<form method='post'>
                       <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
@@ -164,10 +167,10 @@
               // append to sQL stament where
               $headings = $mySQL->getTableHeadings($table,"id");
                $where = "WHERE id='$id'";
-               if($id !=""){
-                $sql = "SELECT * FROM $table $where game_test <= '2'";
-                $result = $mySQL->mySQl($sql);
-               }
+              //  if($id !=""){
+              //   $sql = "SELECT * FROM $table $where game_test <= '2'";
+              //   $result = $mySQL->mySQl($sql);
+              //  }
               
 
               echo "<div style='width:50%;'>
@@ -175,24 +178,15 @@
                       <form method='post'>";
 
                       echo "<table class='table table-striped'>";
-                      // echo "<tr>";
-                      //  echo "<td><input type='text' value='TESTS' id='' name=''></td>";
-                      // echo "</tr>";
-                      // for($i = 0; $i<count($headings); $i++){
-                      //   echo "<tr>";
-                      //   echo "<td>".ucwords(str_replace("_"," ",$headings[$i]['Field']))."</td>";
-                      //   foreach($result as $r){
-                      //     echo "<td><input type='text' value='{$r[$headings[$i]['Field']]}' id='{$headings[$i]['Field']}' name='{$headings[$i]['Field']}'></td>";
-                      //   }
-                        
-                      //   echo "</tr>";
-                      // }
                       foreach($headings as $h){
                         echo "<tr>";
                         echo "<td>".ucwords(str_replace("_"," ",$h['Field']))."</td>";
-                        // foreach($result as $r){
+                        if($h['Field'] == "game"){
+                          echo"<td>".displayDropDown("games","name")."</td>";
+                        }else{
                           echo "<td><input type='text' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";//value='{$r[$h['Field']]}'
-                        // }
+                        }
+                        
                         
                         echo "</tr>";
                       }
