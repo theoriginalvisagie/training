@@ -55,11 +55,11 @@
     require_once("../sql.php");
 
 
-    //     if(isset($_POST['Logout']) && !empty($_POST['Logout'])){
-    //         session_unset();
-    //       session_destroy();
-    //       header("Location: http://localhost/training/login.php");
-    //     }
+        if(isset($_POST['Logout']) && !empty($_POST['Logout'])){
+            session_unset();
+          session_destroy();
+          header("Location: http://localhost/training/login.php");
+        }
 
         echo "<header class='navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow'>
         <a class='navbar-brand col-md-3 col-lg-2 me-0 px-3' href='#'>Game Capture Report</a>
@@ -163,11 +163,11 @@
               //check is id is emoty for edit
               // append to sQL stament where
               $headings = $mySQL->getTableHeadings($table,"id");
-              // $where = "WHERE id='$id'";
-              // if($id !=""){
-                $sql = "SELECT * FROM $table $where";
+               $where = "WHERE id='$id'";
+               if($id !=""){
+                $sql = "SELECT * FROM $table $where game_test <= '2'";
                 $result = $mySQL->mySQl($sql);
-              // }
+               }
               
 
               echo "<div style='width:50%;'>
@@ -205,7 +205,7 @@
               
             }
 
-            echo '<pre>'.print_r($_POST,true).'</pre>';
+             echo '<pre>'.print_r($_POST,true).'</pre>';
 
             if(isset($_POST['addRow']) && !empty($_POST['addRow'])){
               echo addEdit($_POST['table']);
