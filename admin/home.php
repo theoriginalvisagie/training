@@ -183,7 +183,13 @@
                         echo "<td>".ucwords(str_replace("_"," ",$h['Field']))."</td>";
                         if($h['Field'] == "game"){
                           echo"<td>".displayDropDown("games","name")."</td>";
-                        }else{
+                        }else if($h['Field'] == "date_started"){
+                            echo "<td><input type='date' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";
+                        }
+                        else if($h['Field'] == "date_finished"){
+                            echo "<td><input type='date' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";
+                        }
+                        else{
                           echo "<td><input type='text' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";//value='{$r[$h['Field']]}'
                         }
                         
@@ -214,6 +220,17 @@
               $mySQL = new mySQLClass();
               $mySQL->create($_POST,$_POST['table']);
             }
+
+            $sql = "INSERT INTO $table(";
+            foreach($post as $p=>$value){
+                if($p != "table" && $p != "saveNew"){
+                    if($p === array_key_last($post)){
+                        $sql .= $p;
+                    }else{
+                        $sql .= $p.",";
+                    }
+                    // $sql .= $p.",";
+                }
             /*=====[END OF NEW SHIT]=====*/
               
             /*=====[YOUR SHIT]=====*/

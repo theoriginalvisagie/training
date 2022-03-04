@@ -6,6 +6,7 @@
      * @param $columns Column(s) it needs to diplay in drop down
      * @param $where [optional] Where clause
      * @param $javaScript [optional] JavaScript to be executed on change
+     * @param $game_id It needs to dispaly
      */
     function displayDropDown($table, $columns, $where="", $javaScript=""){
         $sql = "SELECT id,$columns FROM $table $where";
@@ -13,7 +14,7 @@
         $result = $mysql->mySQl($sql);
 
         // echo '<pre>'.print_r($result,true).'</pre>';
-        $s = "<select name='cars' id='cars' onchange='$javaScript'>";
+        $s = "<select name='Game' id='game' onchange='$javaScript'>";
         $s .= "<option value=''></option>";
         foreach($result as $key=>$value){
             $s.= "<option value='{$value['id']}'>{$value['name']}</option>";
