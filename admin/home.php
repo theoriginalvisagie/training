@@ -115,7 +115,8 @@
             /*=====[NEW SHIT]===== */
 
             $mySQL = new mySQLClass();
-            $sql = "SELECT * FROM game_time";
+            $sql = "SELECT gt.id, g.name as game, gt.playtime, gt.date_started, gt.date_finished, gt.player_name FROM game_time gt
+                    LEFT JOIN games g ON g.id=gt.game";
             $result = $mySQL->mySQl($sql);
             $headings = $mySQL->getTableHeadings("game_time","id");
 
@@ -163,41 +164,44 @@
 
             function addEdit($table,$id=""){
               $mySQL = new mySQLClass();
-              //check is id is emoty for edit
-              // append to sQL stament where
-              $headings = $mySQL->getTableHeadings($table,"id");
-               $where = "WHERE id='$id'";
-              //  if($id !=""){
-              //   $sql = "SELECT * FROM $table $where game_test <= '2'";
-              //   $result = $mySQL->mySQl($sql);
-              //  }
-              
+              $headings = $mySQL->getTableHeadings($table,"id,date_finished");
 
+              // if(!empty($id)){
+                $where = "WHERE id='$id'";
+                $sql = "SELECT * FROM $table $where";
+ 
+                $result = $mySQL->mySQL($sql);
+              // }
+            
               echo "<div style='width:50%;'>
                       <h3>Add/Edit</h3>
                       <form method='post'>";
 
                       echo "<table class='table table-striped'>";
-                      foreach($headings as $h){
-                        echo "<tr>";
-                        echo "<td>".ucwords(str_replace("_"," ",$h['Field']))."</td>";
-                        if($h['Field'] == "game"){
-                          echo"<td>".displayDropDown("games","name")."</td>";
-                        }else if($h['Field'] == "date_started"){
-                            echo "<td><input type='date' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";
-                        }
-                        else if($h['Field'] == "date_finished"){
-                            echo "<td><input type='date' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";
-                        }
-                        else{
-                          echo "<td><input type='text' value='' id='{$h['Field']}' name='{$h['Field']}'></td>";//value='{$r[$h['Field']]}'
-                        }
-                        
-                        
-                        echo "</tr>";
-                      }
+                        foreach($headings as $h){
+                          $row = $result[0];
+                          echo "<tr>";
+                          echo "<td>".ucwords(str_replace("_"," ",$h['Field']))."</td>";
+
+                          if($h['Field'] == "game"){
+                            echo"<td>".displayDropDown("games","name","")."</td>";
+                          }else if($h['Field'] == "date_started"){
+                              echo "<td><input type='date' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
+                          }
+                          else if($h['Field'] == "date_finished"){
+                              echo "<td><input type='date' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
+                          }
+                          else{
+                            echo "<td><input type='text' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";//value='{$r[$h['Field']]}'
+                          }
+                          
+                          
+                          echo "</tr>";
+                        }     
+                      
 
                       echo "</table>";
+                      /**check post var */
                         echo "<br><input type='submit' value='Save' id='saveNew' name='saveNew' class='btn btn-success'>
                         <input type='hidden' value='$table' id='table' name='table'>";
                          echo"</form>
@@ -215,22 +219,18 @@
               echo addEdit($_POST['table'],$_POST['id']);
             }
 
+            /**EDit if statment */
+
+            /** */
+            
             if(isset($_POST['saveNew']) && !empty($_POST['saveNew'])){
-              // echo addEdit($_POST['table']);
               $mySQL = new mySQLClass();
-              $mySQL->create($_POST,$_POST['table']);
+              $mySQL->insertSQL($_POST,$_POST['table']);
+
+              // echo "<script>location.reload()</script>";
             }
 
-            $sql = "INSERT INTO $table(";
-            foreach($post as $p=>$value){
-                if($p != "table" && $p != "saveNew"){
-                    if($p === array_key_last($post)){
-                        $sql .= $p;
-                    }else{
-                        $sql .= $p.",";
-                    }
-                    // $sql .= $p.",";
-                }
+           
             /*=====[END OF NEW SHIT]=====*/
               
             /*=====[YOUR SHIT]=====*/
