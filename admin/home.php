@@ -202,33 +202,30 @@
 
                       echo "</table>";
                       /**check post var */
+                      
+                         }
                         echo "<br><input type='submit' value='Save' id='saveNew' name='saveNew' class='btn btn-success'>
-                        <input type='hidden' value='$table' id='table' name='table'>";
+                        <input type='hidden' value='table' id='table' name='table'>";
                          echo"</form>
                     </div>";
               
+                    if(isset($_POST['addRow']) && !empty($_POST['addRow'])){
+                        echo addEdit($_POST['table']);
+                        echo addEdit($_POST['table'],$_POST['id']);
             }
 
-             echo '<pre>'.print_r($_POST,true).'</pre>';
-
-            if(isset($_POST['addRow']) && !empty($_POST['addRow'])){
-              echo addEdit($_POST['table']);
-            }
-
-            if(isset($_POST['editRow']) && !empty($_POST['editRow'])){
-              echo addEdit($_POST['table'],$_POST['id']);
-            }
-
-            /**EDit if statment */
-
+               /**Edit if statment */
+        
             /** */
             
             if(isset($_POST['saveNew']) && !empty($_POST['saveNew'])){
               $mySQL = new mySQLClass();
               $mySQL->insertSQL($_POST,$_POST['table']);
 
+
               // echo "<script>location.reload()</script>";
             }
+            
 
            
             /*=====[END OF NEW SHIT]=====*/

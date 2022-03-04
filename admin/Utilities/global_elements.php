@@ -14,13 +14,17 @@
         $result = $mysql->mySQl($sql);
 
         // echo '<pre>'.print_r($result,true).'</pre>';
+
         $s = "<select name='Game' id='game' onchange='$javaScript'>";
         $s .= "<option value='' ></option>";
+       
         foreach($result as $key=>$value){
             $s.= "<option value='{$value['id']}' >{$value['name']}</option>";
+
         }
         $s .="</select>";
 
         return $s;
+        
     }
 ?>

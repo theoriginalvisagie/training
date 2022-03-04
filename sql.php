@@ -105,7 +105,47 @@
     
         }
 
+        // function editSQL($post, $table){
+            
+        //     $sql = "Update INTO $table(";
+        //     foreach($post as $p=>$value){
+        //         if($p != "table" && $p != "saveNew"){
+        //             if($p === array_key_last($post)){
+        //                 $sql .= $p;
+        //             }else{
+        //                 $sql .= $p.",";
+        //             }
+        //         }
+        //     }
+        //     $sql = rtrim($sql,",");
+        //     $sql .= ") VALUES (";
+
+        //     foreach($post as $p=>$value){
+        //         if($p != "table" && $p != "saveNew"){
+        //             if($p === array_key_last($post)){
+        //                 $sql .= "'".$value."'";
+        //             }else{
+        //                 $sql .=  "'".$value."',";
+        //             }
+        //         }
+        //     }
+        //     $sql = rtrim($sql,",");
+        //     $sql .= ")";
+
+        //     echo $sql;
+
+        //     $res = $this-> mySQl($sql);
+        //     if($res){
+        //         echo "<div class='alert alert-success'>New record created successfully</div>";
+        //         // echo "<script>location.reload()</script>";
+        //     }else{
+        //         echo "<div class='alert alert-danger'>Error: " . $sql . "<br>" . $this->dbConnect($sql) . "</div>";
+        //     }
+        //     // $sql = "Insert INTO $table ($columns) VALUES ($place_holders)";
+    
+        // }
+
     }
+    
 
 ?>
-
