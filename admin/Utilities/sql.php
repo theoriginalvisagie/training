@@ -21,9 +21,9 @@
 
             $result = $conn->query($sql);
 
-            
+            // echo $sql;
             if($result && $result->num_rows <= 0) {
-                $return = "New record created successfully";
+                $return = "";
             }else if($result->num_rows > 0){
                 while($row = $result->fetch_assoc()) {
                    $dataArr[] = $row;

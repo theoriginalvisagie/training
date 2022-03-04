@@ -71,7 +71,10 @@
 
         if(isset($_POST['addRow']) && !empty($_POST['addRow'])){
             echo $home->addEdit($_POST['table']);
-           // echo $home->addEdit($_POST['table'],$_POST['id']);
+        }
+
+        if(isset($_POST['editRow']) && !empty($_POST['editRow'])){            
+           echo $home->addEdit($_POST['table'],$_POST['id']);
         }
   
         echo '<pre>'.print_r($_POST,true).'</pre>';

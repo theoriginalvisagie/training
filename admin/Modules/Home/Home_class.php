@@ -1,4 +1,7 @@
 <?php
+  ini_set('display_errors', 0);
+  ini_set('display_startup_errors', 0);
+  error_reporting(E_ALL);
   class Home {
     function __construct(){
       // $this->init();
@@ -87,6 +90,7 @@
             <h3>Add/Edit</h3>
             <form method='post'>";
 
+        echo '<pre>'.print_r($result,true).'</pre>';
       echo "<table class='table table-striped'>";
       foreach($headings as $h){
         $row = $result[0];
@@ -97,8 +101,7 @@
           echo"<td>".displayDropDown("games","name","")."</td>";
         }else if($h['Field'] == "date_started"){
             echo "<td><input type='date' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
-        }
-        else{
+        }else{
           echo "<td><input type='text' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
         }
 
@@ -107,7 +110,7 @@
       echo "</table>";
       
       echo "<br><input type='submit' value='Save' id='saveNew' name='saveNew' class='btn btn-success'>
-      <input type='hidden' value='table' id='table' name='table'>";
+        <input type='hidden' value='$table' id='table' name='table'>";
         echo"</form>
       </div>";      
     }
