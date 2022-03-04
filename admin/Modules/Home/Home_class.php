@@ -73,6 +73,7 @@
     }
 
     function addEdit($table,$id=""){
+
       $mySQL = new mySQLClass();
       $headings = $mySQL->getTableHeadings($table,"id,date_finished");
 
@@ -97,34 +98,21 @@
         }else if($h['Field'] == "date_started"){
             echo "<td><input type='date' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
         }
-        else if($h['Field'] == "date_finished"){
-            echo "<td><input type='date' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
-        }
         else{
-          echo "<td><input type='text' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";//value='{$r[$h['Field']]}'
+          echo "<td><input type='text' value='{$row[$h['Field']]}' id='{$h['Field']}' name='{$h['Field']}'></td>";
         }
-        
-        
-        echo "</tr>";
-      }     
-    
 
+        echo "</tr>";
+      }   
       echo "</table>";
-    
-        
+      
       echo "<br><input type='submit' value='Save' id='saveNew' name='saveNew' class='btn btn-success'>
       <input type='hidden' value='table' id='table' name='table'>";
         echo"</form>
       </div>";      
     }
-
     
-      
   }
-
-
-       
-
        
             /*=====[NEW SHIT]===== */
 
@@ -162,18 +150,7 @@
             // }
             // echo "</table>";
             // echo "</div>";
-
-            
-
-            
-
-            
-
-            
-            
-
-           
-            
-            ?>
+ 
+?>
 
            

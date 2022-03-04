@@ -34,7 +34,10 @@
         
         $result = $mysql->mySQl($sql);
 
-        echo "<input type='submit' name='addRow' id='addRow' value='Add' class='btn btn-success'>";
+        echo "<form method='post' style='float:right;'>
+        <input type='submit' name='addRow' id='addRow' value='Add' class='btn btn-success'>
+        <input type='hidden' name='table' id='table' value='game_time'>
+        </form>";
 
         echo "<table class='table table-striped'>
                 <thead>";
@@ -68,6 +71,7 @@
     }
 
     function addEditTools($id,$table){
+        
         $s = "<form method='post'>
               <input type='submit' name='editRow' id='editRow' value='Edit' class='btn btn-warning'>
               <input type='submit' name='removeRow' id='removeRow' value='Remove' class='btn btn-danger'>
@@ -77,4 +81,34 @@
   
         return $s;
       }
+
+      function AddTools($id,$table){
+
+        echo "<form method='post' style='float:right;'>
+        <input type='submit' name='addRow' id='addRow' value='Add' class='btn btn-success'>
+        <input type='hidden' name='table' id='table' value='$table'>
+        </form>";
+
+        $mySQL = new mySQLClass();
+        $sql = "SELECT gt.id, g.name as game, gt.playtime, gt.date_started, gt.date_finished, gt.player_name FROM game_time gt
+                LEFT JOIN games g ON g.id=gt.game";
+        $result = $mySQL->mySQl($sql);
+        $headings = $mySQL->getTableHeadings("game_time","id");
+        echo "<table class='table table-striped'>";
+            echo "<thead>";
+
+            foreach($headings as $h){
+              echo "<th>".ucwords(str_replace("_"," ",$h['Field']))."</th>";
+            }
+            echo "<th>Tools</th>";
+
+            echo "</thead>";
+            foreach($result as $key=>$value){
+              echo "<tr>";
+        
+              foreach($headings as $h){
+                echo "<td>".$value[$h['Field']]."</td>";
+              }
+        }
+    }
 ?>
